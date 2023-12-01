@@ -1,9 +1,9 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:bloc_4_login/authentication/bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
+import 'authentication/bloc/authentication_bloc.dart';
 import 'home/view/home_page.dart';
 import 'login/view/login_page.dart';
 import 'splash/view/splash_page.dart';
@@ -21,9 +21,9 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
+    super.initState();
     _authenticationRepository = AuthenticationRepository();
     _userRepository = UserRepository();
-    super.initState();
   }
 
   @override
@@ -65,22 +65,26 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-          switch (state.status) {
-            case AuthenticationStatus.authenticated:
-              _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(), (route) => false);
-            case AuthenticationStatus.unauthenticated:
-              _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(), (route) => false);
-            case AuthenticationStatus.unknown:
-              break;
-          }
-        },
-        child: child,
+          listener: (context, state) {
+            switch (state.status) {
+              case AuthenticationStatus.authenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  HomePage.route(),
+                  (route) => false,
+                );
+              case AuthenticationStatus.unauthenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  LoginPage.route(),
+                  (route) => false,
+                );
+              case AuthenticationStatus.unknown:
+                break;
+            }
+          },
+          child: child,
         );
       },
-      onGenerateRoute: (_)=> SplashPage.route(),
+      onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }
