@@ -1,0 +1,2 @@
+/Users/macbookpro/Library/Android/sdk/platform-tools/adb -s 192.168.0.197:42389 install -t -r
+/Users/macbookpro/Documents/xumoyunde/bloc_cubit/bloc_5_weather/build/app/outputs/flutter-apk/app-release.apk
